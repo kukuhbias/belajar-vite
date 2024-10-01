@@ -18,10 +18,16 @@ async function renderNotes() {
     const newNote = document.createElement("div");
     const newTitileNote = document.createElement("h3");
     const newContentNote = document.createElement("p");
+    const newDeleteBtn = document.createElement("button");
+    newDeleteBtn.setAttribute("id", note._id);
+    newDeleteBtn.textContent = `hapus`;
+    newDeleteBtn.onclick = function () {
+      deleteBtn(note._id);
+    };
 
     newTitileNote.textContent = note.title;
     newContentNote.textContent = note.content;
-    newNote.append(newTitileNote, newContentNote);
+    newNote.append(newTitileNote, newContentNote, newDeleteBtn);
     document.body.append(newNote);
   });
 }
@@ -51,3 +57,21 @@ submitBtn?.addEventListener("click", async () => {
     window.location.reload();
   }
 });
+
+//delete Notes function
+
+async function deleteBtn(id: string) {
+  try {
+    await fetch(API_URL, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([id]),
+    });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    window.location.reload();
+  }
+}
