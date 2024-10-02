@@ -16,19 +16,27 @@ async function renderNotes() {
   }
   notes.data.map((note) => {
     const newNote = document.createElement("div");
-    const newTitileNote = document.createElement("h3");
+    newNote.setAttribute("class", "div-body-content");
+    const newInnerNote = document.createElement("div");
+    newInnerNote.setAttribute("class", "div-body-content-inner");
+    const newTitileNote = document.createElement("h2");
     const newContentNote = document.createElement("p");
-    const newDeleteBtn = document.createElement("button");
-    newDeleteBtn.setAttribute("id", note._id);
-    newDeleteBtn.textContent = `hapus`;
-    newDeleteBtn.onclick = function () {
+    const newDeleteImg = document.createElement("img");
+    newDeleteImg.src =
+      "https://api.iconify.design/emojione:cross-mark.svg?color=%23888888";
+    newDeleteImg.setAttribute("class", "delete-btn");
+    newDeleteImg.setAttribute("id", note._id);
+    newDeleteImg.onclick = function () {
       deleteBtn(note._id);
     };
 
     newTitileNote.textContent = note.title;
     newContentNote.textContent = note.content;
-    newNote.append(newTitileNote, newContentNote, newDeleteBtn);
-    document.body.append(newNote);
+    newInnerNote.append(newTitileNote, newContentNote);
+    newNote.append(newInnerNote, newDeleteImg);
+    //document.body.append(newNote);
+    const divBody = document.getElementById("div-body") as HTMLCanvasElement;
+    divBody.append(newNote);
   });
 }
 
